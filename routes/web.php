@@ -14,3 +14,10 @@
 $router->get('/', function () use ($router) {
     return 'Welcome to job listing API';
 });
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('/signup', [
+        'uses' => 'AuthController@signUp',
+        'as' => 'user.signup'
+    ]);
+});
