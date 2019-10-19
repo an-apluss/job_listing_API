@@ -15,6 +15,15 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Define the default string length for the database
+     *
+     * @return void
+     */
+    public function boot() {
+        
         Schema::defaultStringLength(191);
     }
 }
