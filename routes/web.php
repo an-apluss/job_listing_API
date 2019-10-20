@@ -20,4 +20,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         'uses' => 'AuthController@signUp',
         'as' => 'user.signup'
     ]);
+
+    $router->post('/signin', [
+        'uses' => 'AuthController@signIn',
+        'as' => 'user.signin'
+    ]);
 });
