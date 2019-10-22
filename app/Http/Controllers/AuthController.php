@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+use App\User;
 
 class AuthController extends Controller
 {
@@ -18,12 +20,19 @@ class AuthController extends Controller
    */
   public function signUp(Request $request) 
   {
-    $this->validate($request, [
+    $validation = Validator::make($request->all(), [
       'first_name' => 'required|string', 
       'last_name' => 'required|string', 
       'user_name' => 'required|string|unique:users',
       'password' => 'required|alpha_num|min:6',
     ]);
+
+    if ($validation->fails()) {
+     return response()->json([
+       'error' => $validation->errors()->toJson(),
+       'success' => false
+     ], 422);
+    }
     
     try {
       $user = User::create([
@@ -58,10 +67,17 @@ class AuthController extends Controller
    */
   public function signin(Request $request)
   {
-    $this->validate($request, [
+    $validation = Validator::make($request->all(), [
       'user_name' => 'required|string',
       'password' => 'required|alpha_num' 
     ]);
+
+    if ($validation->fails()) {
+      return response()->json([
+        'error' => $validation->errors()->toJson(),
+        'success' => false
+      ], 422);
+    }
 
     $user = $request->only(['user_name', 'password']);
 
@@ -86,7 +102,7 @@ class AuthController extends Controller
   protected function respondWithToken($token)
   {
     return response()->json([
-      'access_token' => 'Bearer '.$token,
+      'access_token' => $token,
       'expires_in' => Auth::factory()->getTTL() * 60,
       'success' => true
     ], 200);
