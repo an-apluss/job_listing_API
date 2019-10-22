@@ -11,6 +11,22 @@ use App\Job;
 class JobController extends Controller
 {
   /**
+   * Handles logic to fetch all jobs
+   *
+   * @return \Illuminate\Http\JsonResponse
+   * 
+   */
+  public function index() {
+
+    $jobs = Job::all();
+
+    return response()->json([
+      'data' => $jobs,
+      'success' => true
+    ],200);
+  }
+
+  /**
    * Handles the logic to create a new job 
    *
    * @param \Illuminate\Http\Request $request
