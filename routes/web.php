@@ -27,4 +27,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             'as' => 'user.signin'
         ]);
     });
+
+    $router->post('/job', [
+        'uses' => 'JobController@create',
+        'as' => 'job.create'
+    ]);
 });
