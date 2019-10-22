@@ -150,4 +150,20 @@ class JobController extends Controller
     ], 401);
 
   }
+
+  /**
+   * Handles logic to fetch a specific job
+   *
+   * @param  numeric $id
+   *
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function fetchOne($id) {
+    $job = Job::find($id);
+
+    return response()->json([
+      'data' => $job,
+      'success' => true
+    ], 200);
+  }
 }
