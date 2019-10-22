@@ -77,4 +77,14 @@ class JobController extends Controller
       'success' => false
     ], 401);
   }
+
+  public function delete($id) {
+    $job = Job::find($id);
+    $job->delete();
+
+    return response()->json([
+      'message' => 'Job successfully deleted',
+      'success' => true
+    ], 200);
+  }
 }
