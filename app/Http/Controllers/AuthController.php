@@ -55,6 +55,7 @@ class AuthController extends Controller
         'message' => 'Unsuccessful User Registration', 
         'success' => false
       ], 422);
+
     }
   }
 
