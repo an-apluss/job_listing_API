@@ -34,4 +34,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             'as' => 'job.create'
         ]);
     });
+
+    $router->get('/jobs', [
+        'uses' => 'JobController@index',
+        'as' => 'job.index'
+    ]);
 });
