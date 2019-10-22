@@ -38,6 +38,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             'uses' => 'JobController@delete',
             'as' => 'job.delete'
         ]);
+
+        $router->put('/job/{jobId}', [
+            'uses' => 'JobController@update',
+            'as' => 'job.update'
+        ]);
     });
 
     $router->get('/jobs', [
