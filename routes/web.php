@@ -33,6 +33,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             'uses' => 'JobController@create',
             'as' => 'job.create'
         ]);
+
+        $router->delete('/job/{jobId}', [
+            'uses' => 'JobController@delete',
+            'as' => 'job.delete'
+        ]);
     });
 
     $router->get('/jobs', [
