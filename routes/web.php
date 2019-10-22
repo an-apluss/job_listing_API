@@ -16,8 +16,15 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->post('/signup', [
-        'uses' => 'AuthController@signUp',
-        'as' => 'user.signup'
-    ]);
+    $router->group(['prefix' => 'auth'], function () use ($router) {
+        $router->post('/signup', [
+            'uses' => 'AuthController@signUp',
+            'as' => 'user.signup'
+        ]);
+
+        $router->post('/signin', [
+            'uses' => 'AuthController@signIn',
+            'as' => 'user.signin'
+        ]);
+    });
 });
