@@ -49,4 +49,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         'uses' => 'JobController@index',
         'as' => 'job.index'
     ]);
+
+    $router->get('/job/{jobId}', [
+        'uses' => 'JobController@fetchOne',
+        'as' => 'job.fetchOne'
+    ]);
 });
