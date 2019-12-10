@@ -21,8 +21,8 @@ class JobController extends Controller
     $jobs = Job::all();
 
     return response()->json([
-      'data' => $jobs,
-      'success' => true
+      'status' => 'success',
+      'data' => $jobs
     ],200);
   }
 
@@ -47,8 +47,8 @@ class JobController extends Controller
 
     if ($validation->fails()) {
       return response()->json([
-        'error' => $validation->errors()->toJson(),
-        'success' => false
+        'status' => 'error',
+        'error' => $validation->errors()
       ], 422);
     }
     
@@ -65,16 +65,15 @@ class JobController extends Controller
       ]);
 
       return response()->json([
+        'status' => 'success',
         'data' => $job,
-        'message' => 'Job successfully created',
-        'success' => true
+        'message' => 'Job successfully created'
       ], 201);
     }
 
     return response()->json([
-      'error' => 'You are unauthorized, only Admin can perform this operation',
-      'message' => 'Job cannot be created',
-      'success' => false
+      'status' => 'error',
+      'error' => 'You are unauthorized, only Admin can perform this operation'
     ], 401);
   }
 
@@ -87,11 +86,19 @@ class JobController extends Controller
    */
   public function delete($id) {
     $job = Job::find($id);
+
+    if (!$job) {
+      return response()->json([
+        'status' => 'error',
+        'error' => 'Job cannot be found'
+      ], 404);
+    }
+
     $job->delete();
 
     return response()->json([
-      'message' => 'Job successfully deleted',
-      'success' => true
+      'status' => 'success',
+      'message' => 'Job successfully deleted'
     ], 200);
   }
 
@@ -117,9 +124,18 @@ class JobController extends Controller
 
     if ($validation->fails()) {
       return response()->json([
-        'error' => $validation->errors()->toJson(),
-        'success' => false
+        'status' => 'error',
+        'error' => $validation->errors()
       ], 422);
+    }
+
+    $job = Job::find($id);
+    
+    if (!$job) {
+      return response()->json([
+        'status' => 'error',
+        'error' => 'Job cannot be found'
+      ], 404);
     }
     
     if (Auth::user()->is_admin) {
@@ -137,16 +153,14 @@ class JobController extends Controller
         ]);
 
       return response()->json([
-        'data' => Job::find($id),
-        'message' => 'Job successfully updated',
-        'success' => true
+        'status' => 'success',
+        'message' => 'Job successfully updated'
       ], 201);
     }
   
     return response()->json([
-      'error' => 'You are unauthorized, only Admin can perform this operation',
-      'message' => 'Job cannot be updated',
-      'success' => false
+      'status' => 'error',
+      'error' => 'You are unauthorized, only Admin can perform this operation'
     ], 401);
 
   }
@@ -160,10 +174,17 @@ class JobController extends Controller
    */
   public function fetchOne($id) {
     $job = Job::find($id);
+    
+    if (!$job) {
+      return response()->json([
+        'status' => 'error',
+        'error' => 'Job cannot be found'
+      ], 404);
+    }
 
     return response()->json([
-      'data' => $job,
-      'success' => true
+      'status' => 'success',
+      'data' => $job
     ], 200);
   }
 }

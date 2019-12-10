@@ -28,10 +28,10 @@ class AuthController extends Controller
     ]);
 
     if ($validation->fails()) {
-     return response()->json([
-       'error' => $validation->errors()->toJson(),
-       'success' => false
-     ], 422);
+      return response()->json([
+        'status' => 'error',
+        'error' => $validation->errors()
+      ], 422);
     }
     
     try {
@@ -44,16 +44,16 @@ class AuthController extends Controller
       ]);
   
       return response()->json([
+        'status' => 'success',
         'data' => $user, 
-        'message' => 'Successful User Registration', 
-        'success' => true
+        'message' => 'User successfully created'
       ], 201);
       
     } catch (\Exception $ex) {
       return response()->json([
+        'status' => 'error',
         'error' => $ex, 
-        'message' => 'Unsuccessful User Registration', 
-        'success' => false
+        'message' => 'Unsuccessful User Registration'
       ], 422);
 
     }
@@ -75,18 +75,17 @@ class AuthController extends Controller
 
     if ($validation->fails()) {
       return response()->json([
-        'error' => $validation->errors()->toJson(),
-        'success' => false
+        'status' => 'error',
+        'error' => $validation->errors(),
       ], 422);
     }
 
     $user = $request->only(['user_name', 'password']);
 
     if(!$token = Auth::attempt($user)) {
-
       return response()->json([
-        'message' => 'Unauthorized credential provided',
-        'success' => false
+        'status' => 'error',
+        'error' => 'Unauthorized credential provided'
       ], 401);
     }
     
@@ -103,9 +102,9 @@ class AuthController extends Controller
   protected function respondWithToken($token)
   {
     return response()->json([
+      'status' => 'success',
       'access_token' => $token,
-      'expires_in' => Auth::factory()->getTTL() * 60,
-      'success' => true
+      'expires_in' => Auth::factory()->getTTL() * 60
     ], 200);
   }
 }
