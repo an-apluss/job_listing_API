@@ -104,6 +104,10 @@ class AuthController extends Controller
     return response()->json([
       'status' => 'success',
       'access_token' => $token,
+      'id'=> Auth::user()->id,
+      'first_name' => Auth::user()->first_name,
+      'last_name' => Auth::user()->last_name,
+      'is_admin' => Auth::user()->is_admin === 1 ? true : false,
       'expires_in' => Auth::factory()->getTTL() * 60
     ], 200);
   }
