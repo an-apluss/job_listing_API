@@ -37,8 +37,8 @@ class Authenticate
     {
         if ($this->auth->guard($guard)->guest()) {
             return response()->json([
-                'message' => 'You are Unauthorized to proceed',
-                'success' => false
+                'status' => 'error',
+                'error' => 'You are Unauthorized to proceed'
             ], 401);
         }
 

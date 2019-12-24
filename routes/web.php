@@ -43,6 +43,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             'uses' => 'JobController@update',
             'as' => 'job.update'
         ]);
+        
+        $router->get('/me', [
+            'uses' => 'AuthController@profile'
+        ]);
     });
 
     $router->get('/jobs', [

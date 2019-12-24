@@ -92,6 +92,17 @@ class AuthController extends Controller
     return $this->respondWithToken($token);
   }
 
+  public function profile() {
+    return response()->json([
+      'status' => 'success',
+      'id'=> Auth::user()->id,
+      'first_name' => Auth::user()->first_name,
+      'last_name' => Auth::user()->last_name,
+      'user_name' => Auth::user()->user_name,
+      'is_admin' => Auth::user()->is_admin === 1 ? true : false
+    ], 200);
+  }
+
   /**
    * Get the token array structure.
    *
